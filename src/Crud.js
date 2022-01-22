@@ -32,7 +32,7 @@ const Crud = () => {
     ]
   });
 
-
+// localStorage.setItem('UserData', JSON.stringify(tableData))
   const handleChange = (event) => {
     setAllData({ ...allData, [event.target.name]: event.target.value });
   };
@@ -45,8 +45,14 @@ const Crud = () => {
     getUserData();
   }, []);
 
+
   const handleSubmit = () => {
-    const userData = tableData;
+    let userData = [];
+    if(tableData) {
+      userData = tableData;
+    } else {
+      userData = [];
+    }
     if (allData.editid === "") {
       const UserDataObj = {
         firstName: allData.firstName,
@@ -73,7 +79,6 @@ const Crud = () => {
         hobbies: allData.hobbies,
         
       };
-
       userData[allData.editid] = UserDataObj;
       localStorage.setItem("UserData", JSON.stringify(userData));
       setTableData(userData);
@@ -316,7 +321,7 @@ const Crud = () => {
             alignItems: "center",
           }}
         >
-          <Table columns={columns} dataSource={tableData} rowKey={e => e.id}/>
+          <Table columns={columns} dataSource={tableData} />
         </div>
       </div>
       ;
