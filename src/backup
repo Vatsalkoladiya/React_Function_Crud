@@ -35,20 +35,7 @@ const Crud = () => {
 
   // localStorage.setItem('UserData', JSON.stringify(tableData))
   const handleChange = (event) => {
-    let { name, value } = event.target;
-    if (event.target.name === "firstName") {
-      value = value.replace(/[^A-Z\^a-z\s-]/g, "");
-    }
-    if (event.target.name === "middleName") {
-      value = value.replace(/[^A-Z\^a-z\s-]/g, "");
-    }
-    if (event.target.name === "lastName") {
-      value = value.replace(/[^A-Z\^a-z\s-]/g, "");
-    }
-    if (event.target.name === "mobile") {
-      value = value.replace(/[^0-9\s-]/g, "");
-    }
-    setAllData({ ...allData, [name]: value });
+    setAllData({ ...allData, [event.target.name]: event.target.value });
   };
 
   const getUserData = () => {
@@ -82,13 +69,13 @@ const Crud = () => {
           return "";
         }
       case "email":
-        if (!emailRegx.test(value)) {
+        if (!value) {
           return "Please Enter Email";
         } else {
           return "";
         }
       case "mobile":
-        if (!mobile.test(value)) {
+        if (!value) {
           return "Please Enter Mobile";
         } else {
           return "";
@@ -100,7 +87,7 @@ const Crud = () => {
           return "";
         }
       case "hobbies":
-        if (allData?.hobbies?.length <= 0) {
+        if (!value) {
           return "Please Enter Hobbies";
         } else {
           return "";
@@ -167,7 +154,35 @@ const Crud = () => {
       localStorage.setItem("UserData", JSON.stringify(userData));
       setTableData(userData);
     }
-    setErrors({});
+    // if (allData.editid === "") {
+    //   const UserDataObj = {
+    //     firstName: allData.firstName,
+    //     middleName: allData.middleName,
+    //     lastName: allData.lastName,
+    //     email: allData.email,
+    //     mobile: allData.mobile,
+    //     gender: allData.gender,
+    //     city: allData.city,
+    //     hobbies: allData.hobbies,
+    //   };
+    //   userData.push(UserDataObj);
+    //   localStorage.setItem("UserData", JSON.stringify(userData));
+    //   setTableData(userData);
+    // } else {
+    //   const UserDataObj = {
+    //     firstName: allData.firstName,
+    //     middleName: allData.middleName,
+    //     lastName: allData.lastName,
+    //     email: allData.email,
+    //     mobile: allData.mobile,
+    //     gender: allData.gender,
+    //     city: allData.city,
+    //     hobbies: allData.hobbies,
+    //   };
+    //   userData[allData.editid] = UserDataObj;
+    //   localStorage.setItem("UserData", JSON.stringify(userData));
+    //   setTableData(userData);
+    // }
     setAllData({
       firstName: "",
       middleName: "",
@@ -358,8 +373,8 @@ const Crud = () => {
                       </Col>
                     ))}
                   </Row>
+                  <span className="validation">{errors.hobbies}</span>
                 </Form.Item>
-                <span className="validation">{errors.hobbies}</span>
                 <h3>Gender</h3>
                 <Radio.Group
                   onChange={(event) =>
